@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Course Notebook</title>
+  </head>
+  <body>
+    <% if session[:message] %>
+      <p><%= session.delete(:message) %></p>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>
