@@ -1,0 +1,26 @@
+body {
+  padding: 1em;
+  font-family: monospace;
+  color: #4d4d4d;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 38px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+p {
+  font-size: 15px;
+}
+
+.message {
+  padding: 10px;
+  background: #FFFF99;
+}

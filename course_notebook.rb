@@ -42,9 +42,10 @@ end
 get '/courses/:filename' do
   file_path = File.join(data_path, params[:filename])
   if File.file?(file_path)
-    load_file_content(file_path)
+    @content = load_file_content(file_path)
   else
     session[:message] = "#{params[:filename]} does not exist."
     redirect "/"
   end
+  erb :content
 end
