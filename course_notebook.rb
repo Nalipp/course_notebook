@@ -1,3 +1,5 @@
+require 'pry'
+
 require "sinatra"
 require "sinatra/reloader"
 require "sinatra/content_for"
@@ -39,7 +41,6 @@ end
 
 get '/courses/:filename' do
   file_path = File.join(data_path, params[:filename])
-
   if File.file?(file_path)
     load_file_content(file_path)
   else
