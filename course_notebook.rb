@@ -54,19 +54,24 @@ get '/new' do
   erb :new
 end
 
-def validate_file_type(filename)
-  if params[:filename][-3..-1] != ".md"
-    name = params[:filename] + ".md"
+def validate_filename(filename)
+  if filename.length > 1000
+    session[:message] = "filename too long"
+    redirect '/'
+  elsif filename.length < 2
+    session[:message] = "filename too short"
+    redirect '/'
+  elsif params[:filename][-3..-1] != ".md"
+    params[:filename] + ".md"
   end
-  name
 end
 
 post '/create' do
-  filename = validate_file_type(params[:filename])
+  filename = validate_filename(params[:filename])
   file_path = File.join(data_path, filename)
 
   File.write(file_path, params[:content])
 
-  session[:message] = "#{filename} has been created."
+  session[:message] = "#{params[:filename]} has been created."
   redirect "/"
 end
