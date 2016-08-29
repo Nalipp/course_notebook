@@ -49,3 +49,24 @@ get '/courses/:filename' do
   end
   erb :content
 end
+
+get '/new' do
+  erb :new
+end
+
+def validate_file_type(filename)
+  if params[:filename][-3..-1] != ".md"
+    name = params[:filename] + ".md"
+  end
+  name
+end
+
+post '/create' do
+  filename = validate_file_type(params[:filename])
+  file_path = File.join(data_path, filename)
+
+  File.write(file_path, params[:content])
+
+  session[:message] = "#{filename} has been created."
+  redirect "/"
+end
