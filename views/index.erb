@@ -1,6 +1,10 @@
 <h1>Course Notebook</h1>
 
 <% @files.each do |file| %>
-  <h3><a href="/courses/<%= file %>"><ul><%= file %></ul></a></h3>
+  <h3><a href="/courses/<%= file %>"><ul><%= file %>
+    <a class="small-fake-button" href="<%= file %>/edit">edit</a>
+
+    <form class="inline" method="post" action="<%= file %>/delete"><button type="submit">delete</button></form>
+  </h3>
 <% end %>
 <h3 class="extra-padding"><a class="fake-button" href="/new">new</a><h3>

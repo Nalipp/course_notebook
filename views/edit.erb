@@ -1,0 +1,13 @@
+<form method="post" action="/<%= @filename %>">
+  <h2><label for="filename">Edit notebook</label></h2>
+  <div>
+    <input class="mono-text" name="filename" id="filename" placeholder="<%= @filename %>"/>
+  </div>
+  <br>
+  <div>
+    <textarea class="mono-text" name="content" id="content" rows="18" cols="80"><%= @contents %></textarea>
+  </div>
+  <div>
+    <button type="submit">update</button>
+  </div>
+</form>

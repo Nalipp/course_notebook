@@ -2,9 +2,7 @@ require 'pry'
 
 require "sinatra"
 require "sinatra/reloader"
-require "sinatra/content_for"
 require "tilt/erubis"
-require "redcarpet"
 
 configure do
   enable :sessions
@@ -15,18 +13,32 @@ def data_path
   File.expand_path("../data", __FILE__)
 end
 
-def render_markdown(text)
-  markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-  markdown.render(text)
-end
-
 def load_file_content(path)
   content = File.read(path)
-  if File.extname(path) == ".md"
-    render_markdown(content)
+  if File.extname(path) == ".txt"
+    content
   else
-    session[:message] = "Please use the .md file format"
+    session[:message] = "Please use the .txt file format"
     redirect "/"
+  end
+end
+
+def validate_filename(filename)
+  if filename.length > 1000
+    session[:message] = "filename too long"
+    redirect '/'
+  elsif filename.length < 2
+    session[:message] = "filename too short"
+    redirect '/'
+  elsif params[:filename][-4..-1] != ".txt"
+    params[:filename] + ".txt"
+  end
+end
+
+def validate_content(content)
+  if content.length > 1000000
+    session[:message] = "content too long"
+    redirect '/new'
   end
 end
 
@@ -54,24 +66,38 @@ get '/new' do
   erb :new
 end
 
-def validate_filename(filename)
-  if filename.length > 1000
-    session[:message] = "filename too long"
-    redirect '/'
-  elsif filename.length < 2
-    session[:message] = "filename too short"
-    redirect '/'
-  elsif params[:filename][-3..-1] != ".md"
-    params[:filename] + ".md"
-  end
-end
-
 post '/create' do
   filename = validate_filename(params[:filename])
+  content = validate_content(params[:content])
+
   file_path = File.join(data_path, filename)
 
   File.write(file_path, params[:content])
 
   session[:message] = "#{params[:filename]} has been created."
+  redirect "/"
+end
+
+get '/:filename/edit' do
+  @filename = params[:filename]
+  content_path = File.join(data_path, @filename)
+  @contents = File.read(content_path)
+
+  erb :edit
+end
+
+post '/:filename' do
+  file_path = File.join(data_path, params[:filename])
+  File.write(file_path, params[:content])
+
+  redirect "/"
+end
+
+post '/:filename/delete' do
+  file_path = File.join(data_path, params[:filename])
+
+  File.delete(file_path)
+
+  session[:message] = "#{params[:filename]} has been deleted."
   redirect "/"
 end

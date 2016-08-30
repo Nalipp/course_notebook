@@ -1,3 +1,0 @@
-#Sinatra...
-
-"Sinatra is great"

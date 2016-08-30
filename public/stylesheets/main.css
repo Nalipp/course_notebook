@@ -29,6 +29,11 @@ input {
   padding: 5px;
 }
 
+textarea {
+  font-size: 18px;
+  padding: 5px;
+}
+
 button {
   font-size: 25px;
   color: #737373;
@@ -45,11 +50,21 @@ button {
   background: #FFFF99;
 }
 
+.small-fake-button {
+  background-color: #FFFF99;
+  margin: 8px;
+  padding: 6px;
+  color: #4d4d4d;
+  display: inline;
+  font-size: 15px;
+}
+
 .fake-button {
   background-color: #FFFF99;
   margin: 10px;
   padding: 8px;
   color: #4d4d4d;
+  display: inline;
 }
 
 .extra-padding {
@@ -58,4 +73,8 @@ button {
 
 .mono-text {
   font-family: monospace;
+}
+
+form.inline {
+  display: inline;
 }
